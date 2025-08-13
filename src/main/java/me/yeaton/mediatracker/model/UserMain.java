@@ -12,6 +12,7 @@ public class UserMain {
     private String username;
     private String email;
     private String role;
+    private String password;
     private LocalDateTime birthday;
     private LocalDateTime createdAt;
     public UUID getId() {
@@ -20,10 +21,11 @@ public class UserMain {
 
     
 
-    public UserMain(String username, String email, String role) {
+    public UserMain(String username, String email, String role, String password) {
         this.username = username;
         this.email = email;
         this.role = role;
+        this.password = password;
     }
 
     
@@ -59,6 +61,12 @@ public class UserMain {
     }
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
     @Override
     public String toString() {

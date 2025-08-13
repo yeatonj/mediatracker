@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS user_main (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR NOT NULL,
     email VARCHAR UNIQUE NOT NULL,
+    password VARCHAR,
     role VARCHAR DEFAULT 'user',
     birthday TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT now()
