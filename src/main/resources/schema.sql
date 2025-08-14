@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS book_genre(
     genre UUID NOT NULL REFERENCES genre
 );
 
---books_read, in user aggregate
-CREATE TABLE IF NOT EXISTS books_read(
+--book_read, in user aggregate
+CREATE TABLE IF NOT EXISTS book_read(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_main UUID NOT NULL REFERENCES user_main,
     book UUID NOT NULL REFERENCES book,
@@ -70,6 +70,6 @@ CREATE TABLE IF NOT EXISTS books_read(
 --user_tag, in user aggregate
 CREATE TABLE IF NOT EXISTS user_tag(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    book_read_id UUID NOT NULL REFERENCES books_read,
-    tag_id UUID NOT NULL REFERENCES tag
+    book_read UUID NOT NULL REFERENCES book_read,
+    tag UUID NOT NULL REFERENCES tag
 );

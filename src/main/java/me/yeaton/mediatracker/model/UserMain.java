@@ -1,6 +1,8 @@
 package me.yeaton.mediatracker.model;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -15,6 +17,10 @@ public class UserMain {
     private String password;
     private LocalDateTime birthday;
     private LocalDateTime createdAt;
+    // user's wishlist
+    private Set<BookWishlist> wishlistBooks = new HashSet<>();
+    // user's books read
+    private Set<BookRead> booksRead = new HashSet<>();
     
     public UserMain(String username, String email, String role, String password) {
         this.username = username;
@@ -65,10 +71,28 @@ public class UserMain {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public Set<BookWishlist> getWishlistBooks() {
+        return wishlistBooks;
+    }
+
+    public void setWishlistBooks(Set<BookWishlist> wishlistBooks) {
+        this.wishlistBooks = wishlistBooks;
+    }
+
+    public Set<BookRead> getBooksRead() {
+        return booksRead;
+    }
+
+    public void setBooksRead(Set<BookRead> booksRead) {
+        this.booksRead = booksRead;
+    }
+
     @Override
     public String toString() {
-        return "User [id=" + id + ", username=" + username + ", email=" + email + ", role=" + role + ", birthday="
-                + birthday + ", createdAt=" + createdAt + "]";
+        return "UserMain [id=" + id + ", username=" + username + ", email=" + email + ", role=" + role + ", password="
+                + password + ", birthday=" + birthday + ", createdAt=" + createdAt + ", wishlistBooks=" + wishlistBooks
+                + ", booksRead=" + booksRead + "]";
     }
 }
 
