@@ -19,9 +19,9 @@ public class Book {
     private LocalDateTime published;
     private String coverImgLoc;
     // Associated Genres
-    private Set<Genre> genres = new HashSet<>();
+    private Set<BookGenre> bookGenres = new HashSet<>();
     // Associated Tags
-    private Set<Tag> tags = new HashSet<>();
+    private Set<BookTag> bookTags = new HashSet<>();
 
     
     public Book(String title, String author, Integer pages, String description, LocalDateTime published) {
@@ -113,23 +113,33 @@ public class Book {
     }
 
 
-    public Set<Genre> getGenres() {
-        return genres;
+    public Set<BookGenre> getBookGenres() {
+        return bookGenres;
     }
 
 
-    public void setGenres(Set<Genre> genres) {
-        this.genres = genres;
+    public void setBookGenres(Set<BookGenre> bookGenres) {
+        this.bookGenres = bookGenres;
+    }
+
+    public void addBookGenre(BookGenre bookGenre) {
+        this.bookGenres.add(bookGenre);
+        bookGenre.book = this;
     }
 
 
-    public Set<Tag> getTags() {
-        return tags;
+    public Set<BookTag> getBookTags() {
+        return bookTags;
     }
 
 
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
+    public void setBookTags(Set<BookTag> bookTags) {
+        this.bookTags = bookTags;
+    }
+
+    public void addBookTag(BookTag bookTag) {
+        this.bookTags.add(bookTag);
+        bookTag.book = this;
     }
 
 
@@ -137,7 +147,7 @@ public class Book {
     public String toString() {
         return "Book [id=" + id + ", title=" + title + ", author=" + author + ", series=" + series + ", pages=" + pages
                 + ", description=" + description + ", published=" + published + ", coverImgLoc=" + coverImgLoc
-                + ", genres=" + genres + ", tags=" + tags + "]";
+                + ", bookGenres=" + bookGenres + ", bookTags=" + bookTags + "]";
     }
 
     

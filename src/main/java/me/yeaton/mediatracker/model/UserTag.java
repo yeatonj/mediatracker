@@ -12,7 +12,7 @@ public class UserTag {
     private UUID id;
     AggregateReference<Tag, UUID> tag;
     @Transient
-    BookRead booksRead;
+    BookRead bookRead;
 
     public UserTag(AggregateReference<Tag, UUID> tag) {
         this.tag = tag;
@@ -34,16 +34,16 @@ public class UserTag {
         this.tag = tag;
     }
 
-    public BookRead getBooksRead() {
-        return booksRead;
+    public BookRead getBookRead() {
+        return bookRead;
     }
 
-    public void setBooksRead(BookRead booksRead) {
-        this.booksRead = booksRead;
+    public void setBookRead(BookRead bookRead) {
+        this.bookRead = bookRead;
     }
 
     @Override
     public String toString() {
-        return "UserTag [id=" + id + ", tag=" + tag + ", booksRead=" + booksRead + "]";
+        return "UserTag [id=" + id + ", tag=" + tag + ", bookRead=" + bookRead + "]";
     }
 }

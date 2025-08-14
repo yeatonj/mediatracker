@@ -19,7 +19,7 @@ public class BookRead {
     private Boolean completed;
     private LocalDateTime completedDate;
     private AggregateReference<Book, UUID> book;
-    private Set<UserTag> tags = new HashSet<>();
+    private Set<UserTag> userTags = new HashSet<>();
     @Transient
     UserMain userMain; // This is the user associated with this wishlist, will be persisted by the user itself
 
@@ -79,12 +79,17 @@ public class BookRead {
         this.book = book;
     }
 
-    public Set<UserTag> getTags() {
-        return tags;
+    public Set<UserTag> getUserTags() {
+        return userTags;
     }
 
-    public void setTags(Set<UserTag> tags) {
-        this.tags = tags;
+    public void setUserTags(Set<UserTag> userTags) {
+        this.userTags = userTags;
+    }
+
+    public void addUserTag(UserTag userTag) {
+        this.userTags.add(userTag);
+        userTag.bookRead = this;
     }
 
     public UserMain getUserMain() {
@@ -98,7 +103,7 @@ public class BookRead {
     @Override
     public String toString() {
         return "BookRead [id=" + id + ", progress=" + progress + ", rating=" + rating + ", review=" + review
-                + ", completed=" + completed + ", completedDate=" + completedDate + ", book=" + book + ", tags=" + tags
+                + ", completed=" + completed + ", completedDate=" + completedDate + ", book=" + book + ", userTags=" + userTags
                 + ", userMain=" + userMain + "]";
     }
 

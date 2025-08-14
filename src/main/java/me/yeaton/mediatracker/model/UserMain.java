@@ -80,12 +80,22 @@ public class UserMain {
         this.wishlistBooks = wishlistBooks;
     }
 
+    public void addWishListBook(BookWishlist bookWishlist) {
+        this.wishlistBooks.add(bookWishlist);
+        bookWishlist.userMain = this;
+    }
+
     public Set<BookRead> getBooksRead() {
         return booksRead;
     }
 
     public void setBooksRead(Set<BookRead> booksRead) {
         this.booksRead = booksRead;
+    }
+
+    public void addBookRead(BookRead bookRead) {
+        this.booksRead.add(bookRead);
+        bookRead.userMain = this;
     }
 
     @Override
