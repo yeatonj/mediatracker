@@ -15,9 +15,9 @@ CREATE TABLE IF NOT EXISTS book (
     title VARCHAR NOT NULL,
     author VARCHAR NOT NULL,
     series VARCHAR,
-    pages INTEGER,
+    pages INTEGER NOT NULL,
     description VARCHAR NOT NULL,
-    published TIMESTAMPTZ,
+    published TIMESTAMPTZ NOT NULL,
     cover_img_loc VARCHAR
 );
 
@@ -70,6 +70,6 @@ CREATE TABLE IF NOT EXISTS books_read(
 --user_tag, in user aggregate
 CREATE TABLE IF NOT EXISTS user_tag(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    book_read_id UUID REFERENCES books_read,
-    tag_id UUID REFERENCES tag
+    book_read_id UUID NOT NULL REFERENCES books_read,
+    tag_id UUID NOT NULL REFERENCES tag
 );
