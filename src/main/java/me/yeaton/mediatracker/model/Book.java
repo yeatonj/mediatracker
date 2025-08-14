@@ -1,6 +1,8 @@
 package me.yeaton.mediatracker.model;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -16,6 +18,10 @@ public class Book {
     private String description;
     private LocalDateTime published;
     private String coverImgLoc;
+    // Associated Genres
+    private Set<Genre> genres = new HashSet<>();
+    // Associated Tags
+    private Set<Tag> tags = new HashSet<>();
 
     
     public Book(String title, String author, Integer pages, String description, LocalDateTime published) {
