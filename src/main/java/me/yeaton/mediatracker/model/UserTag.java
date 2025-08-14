@@ -12,7 +12,7 @@ public class UserTag {
     private UUID id;
     AggregateReference<Tag, UUID> tag;
     @Transient
-    BooksRead booksRead;
+    BookRead booksRead;
 
     public UserTag(AggregateReference<Tag, UUID> tag) {
         this.tag = tag;
@@ -34,11 +34,11 @@ public class UserTag {
         this.tag = tag;
     }
 
-    public BooksRead getBooksRead() {
+    public BookRead getBooksRead() {
         return booksRead;
     }
 
-    public void setBooksRead(BooksRead booksRead) {
+    public void setBooksRead(BookRead booksRead) {
         this.booksRead = booksRead;
     }
 
