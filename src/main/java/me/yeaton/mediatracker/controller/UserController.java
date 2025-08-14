@@ -31,7 +31,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Void> addUser(@RequestBody UserMain user) {
         try {
-            users.save(new UserMain(user.getUsername(), user.getEmail(), user.getRole(), user.getPassword()));
+            users.save(new UserMain(user.getUsername(), user.getEmail(), user.getPassword()));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
