@@ -25,6 +25,8 @@ public class BookRead {
 
     // !! need to put validation in for progress and rating
 
+    public BookRead() {}
+
     public BookRead(AggregateReference<Book, UUID> book) {
         this(book, 0, null, null, false, null);
     }
