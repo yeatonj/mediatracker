@@ -15,12 +15,7 @@ public class UserMain {
     private String password;
     private LocalDateTime birthday;
     private LocalDateTime createdAt;
-    public UUID getId() {
-        return id;
-    }
-
     
-
     public UserMain(String username, String email, String role, String password) {
         this.username = username;
         this.email = email;
@@ -28,7 +23,9 @@ public class UserMain {
         this.password = password;
     }
 
-    
+    public UUID getId() {
+        return id;
+    }
     public void setId(UUID id) {
         this.id = id;
     }

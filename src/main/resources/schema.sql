@@ -1,4 +1,4 @@
--- user
+-- user, aggregate
 CREATE TABLE IF NOT EXISTS user_main (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS user_main (
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- books
+-- book, aggregate
 CREATE TABLE IF NOT EXISTS book (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title VARCHAR NOT NULL,
@@ -21,19 +21,19 @@ CREATE TABLE IF NOT EXISTS book (
     cover_img_loc VARCHAR
 );
 
--- tags
+-- tag, belongs to both book and user aggregates
 CREATE TABLE IF NOT EXISTS tag (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tag VARCHAR UNIQUE NOT NULL
 );
 
--- genres
+-- genre, belongs to book aggregate
 CREATE TABLE IF NOT EXISTS genre (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     genre VARCHAR UNIQUE NOT NULL
 );
 
--- book_wishlist
+-- book_wishlist, in user aggregate
 CREATE TABLE IF NOT EXISTS book_wishlist (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES user_main,
@@ -41,21 +41,21 @@ CREATE TABLE IF NOT EXISTS book_wishlist (
     rank INTEGER DEFAULT NULL
 );
 
---book_tags
+--book_tag, in book aggregate
 CREATE TABLE IF NOT EXISTS book_tag (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     book_id UUID NOT NULL REFERENCES book,
     tag_id UUID NOT NULL REFERENCES tag
 );
 
---book_genres
+--book_genre, in book aggregate
 CREATE TABLE IF NOT EXISTS book_genre(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     book_id UUID NOT NULL REFERENCES book,
     genre_id UUID NOT NULL REFERENCES genre
 );
 
---books_read
+--books_read, in user aggregate
 CREATE TABLE IF NOT EXISTS books_read(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES user_main,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS books_read(
     completed_date TIMESTAMPTZ
 );
 
---user_tags
+--user_tag, in user aggregate
 CREATE TABLE IF NOT EXISTS user_tag(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     book_read_id UUID REFERENCES books_read,
