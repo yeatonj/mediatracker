@@ -4,9 +4,9 @@ CREATE TABLE IF NOT EXISTS user_main (
     username VARCHAR NOT NULL,
     email VARCHAR UNIQUE NOT NULL,
     password VARCHAR,
-    role VARCHAR DEFAULT 'user',
+    role VARCHAR,
     birthday TIMESTAMPTZ,
-    created_at TIMESTAMPTZ DEFAULT now()
+    created_at TIMESTAMPTZ
 );
 
 -- book, aggregate
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS book_wishlist (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_main UUID NOT NULL REFERENCES user_main,
     book UUID NOT NULL REFERENCES book,
-    rank INTEGER DEFAULT NULL
+    rank INTEGER
 );
 
 --book_tag, in book aggregate
@@ -60,10 +60,10 @@ CREATE TABLE IF NOT EXISTS book_read(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_main UUID NOT NULL REFERENCES user_main,
     book UUID NOT NULL REFERENCES book,
-    progress INTEGER NOT NULL DEFAULT 0,
-    rating INTEGER DEFAULT NULL,
+    progress INTEGER NOT NULL,
+    rating INTEGER ,
     review VARCHAR,
-    completed BOOLEAN DEFAULT FALSE,
+    completed BOOLEAN,
     completed_date TIMESTAMPTZ
 );
 

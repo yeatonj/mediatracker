@@ -23,6 +23,21 @@ public class BookRead {
     @Transient
     UserMain userMain; // This is the user associated with this wishlist, will be persisted by the user itself
 
+    // !! need to put validation in for progress and rating
+
+    public BookRead(AggregateReference<Book, UUID> book) {
+        this(book, 0, null, null, false, null);
+    }
+
+    public BookRead(AggregateReference<Book, UUID> book, Integer progress, Integer rating, String review, Boolean completed, LocalDateTime completedDate) {
+        this.book = book;
+        this.progress = progress;
+        this.rating = rating;
+        this.review = review;
+        this.completed = completed;
+        this.completedDate = completedDate;
+    }
+
     public UUID getId() {
         return id;
     }

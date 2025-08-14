@@ -22,11 +22,12 @@ public class UserMain {
     // user's books read
     private Set<BookRead> booksRead = new HashSet<>();
     
-    public UserMain(String username, String email, String role, String password) {
+    public UserMain(String username, String email, String password) {
         this.username = username;
         this.email = email;
-        this.role = role;
+        this.role = "user";
         this.password = password;
+        this.createdAt = LocalDateTime.now();
     }
 
     public UUID getId() {
