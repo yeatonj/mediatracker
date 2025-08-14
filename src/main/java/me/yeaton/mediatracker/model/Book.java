@@ -15,7 +15,7 @@ public class Book {
     private Integer pages;
     private String description;
     private LocalDateTime published;
-    private String coverFilePath;
+    private String coverImgLoc;
 
     
     public Book(String title, String author, Integer pages, String description, LocalDateTime published) {
@@ -97,20 +97,20 @@ public class Book {
     }
 
 
-    public String getCoverFilePath() {
-        return coverFilePath;
+    public String getcoverImgLoc() {
+        return coverImgLoc;
     }
 
 
-    public void setCoverFilePath(String coverFilePath) {
-        this.coverFilePath = coverFilePath;
+    public void setcoverImgLoc(String coverImgLoc) {
+        this.coverImgLoc = coverImgLoc;
     }
 
 
     @Override
     public String toString() {
         return "Book [id=" + id + ", title=" + title + ", author=" + author + ", series=" + series + ", pages=" + pages
-                + ", description=" + description + ", published=" + published + ", coverFilePath=" + coverFilePath
+                + ", description=" + description + ", published=" + published + ", coverImgLoc=" + coverImgLoc
                 + "]";
     }
 
