@@ -113,12 +113,34 @@ public class Book {
     }
 
 
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+
     @Override
     public String toString() {
         return "Book [id=" + id + ", title=" + title + ", author=" + author + ", series=" + series + ", pages=" + pages
                 + ", description=" + description + ", published=" + published + ", coverImgLoc=" + coverImgLoc
-                + "]";
+                + ", genres=" + genres + ", tags=" + tags + "]";
     }
+
+    
 
     
 
