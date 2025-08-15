@@ -1,5 +1,7 @@
 package me.yeaton.mediatracker;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -50,7 +52,6 @@ class MediatrackerApplicationTests {
 	}
 
 	@Test
-	@Transactional
 	public void createTest() {
 		// Create a genre and a tag
 		AggregateReference<Genre, UUID> testGenre = AggregateReference.to(genres.save(new Genre("Fantasy")).getId());
@@ -81,6 +82,17 @@ class MediatrackerApplicationTests {
 		// Create a wish list entry for this user and book 2
 		BookWishlist userWishlist = new BookWishlist(book2Ref, userRef);
 		wishlists.save(userWishlist);
+	}
+
+	@Test
+	public void deleteTest() {
+		booksRead.deleteAll();
+		assertEquals(books.count(), 2);
+		wishlists.deleteAll();
+		users.deleteAll();
+		books.deleteAll();
+		tags.deleteAll();
+		genres.deleteAll();
 	}
 
 }
