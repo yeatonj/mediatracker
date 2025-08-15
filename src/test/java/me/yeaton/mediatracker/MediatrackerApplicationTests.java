@@ -18,10 +18,12 @@ import me.yeaton.mediatracker.model.Genre;
 import me.yeaton.mediatracker.model.Tag;
 import me.yeaton.mediatracker.model.UserMain;
 import me.yeaton.mediatracker.model.UserTag;
+import me.yeaton.mediatracker.repository.BookReadRepository;
 import me.yeaton.mediatracker.repository.BookRepository;
 import me.yeaton.mediatracker.repository.GenreRepository;
 import me.yeaton.mediatracker.repository.TagRepository;
 import me.yeaton.mediatracker.repository.UserRepository;
+import me.yeaton.mediatracker.repository.WishlistRepository;
 
 @SpringBootTest
 class MediatrackerApplicationTests {
@@ -36,6 +38,12 @@ class MediatrackerApplicationTests {
 
 	@Autowired
 	BookRepository books;
+
+	@Autowired
+	BookReadRepository booksRead;
+
+	@Autowired
+	WishlistRepository wishlists;
 
 	@Test
 	void contextLoads() {
@@ -61,12 +69,18 @@ class MediatrackerApplicationTests {
 		book2.addBookTag(new BookTag(testTagBook));
 		AggregateReference<Book, UUID> book2Ref = AggregateReference.to(books.save(book2).getId());
 
+		// Create a user
 		UserMain testUser = new UserMain("dev", "dev@dev.com", "password");
-		testUser.addWishListBook(new BookWishlist(book2Ref));
-		BookRead userBookRead = new BookRead(book1Ref);
+		AggregateReference<UserMain, UUID> userRef = AggregateReference.to(users.save(testUser).getId());
+
+		// Create a book read entry for this user and book 1, add a tag as well
+		BookRead userBookRead = new BookRead(book1Ref, userRef);
 		userBookRead.addUserTag(new UserTag(testTagUser));
-		testUser.addBookRead(userBookRead);
-		users.save(testUser);
+		booksRead.save(userBookRead);
+
+		// Create a wish list entry for this user and book 2
+		BookWishlist userWishlist = new BookWishlist(book2Ref, userRef);
+		wishlists.save(userWishlist);
 	}
 
 }

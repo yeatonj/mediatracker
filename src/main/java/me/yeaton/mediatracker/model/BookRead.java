@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
 public class BookRead {
@@ -19,20 +18,20 @@ public class BookRead {
     private Boolean completed;
     private LocalDateTime completedDate;
     private AggregateReference<Book, UUID> book;
+    private AggregateReference<UserMain, UUID> userMain;
     private Set<UserTag> userTags = new HashSet<>();
-    @Transient
-    UserMain userMain; // This is the user associated with this wishlist, will be persisted by the user itself
 
     // !! need to put validation in for progress and rating
 
     public BookRead() {}
 
-    public BookRead(AggregateReference<Book, UUID> book) {
-        this(book, 0, null, null, false, null);
+    public BookRead(AggregateReference<Book, UUID> book, AggregateReference<UserMain, UUID> userMain) {
+        this(book, userMain, 0, null, null, false, null);
     }
 
-    public BookRead(AggregateReference<Book, UUID> book, Integer progress, Integer rating, String review, Boolean completed, LocalDateTime completedDate) {
+    public BookRead(AggregateReference<Book, UUID> book, AggregateReference<UserMain, UUID> userMain, Integer progress, Integer rating, String review, Boolean completed, LocalDateTime completedDate) {
         this.book = book;
+        this.userMain = userMain;
         this.progress = progress;
         this.rating = rating;
         this.review = review;
@@ -109,24 +108,19 @@ public class BookRead {
         userTag.bookRead = this;
     }
 
-    public UserMain getUserMain() {
+    public AggregateReference<UserMain, UUID> getUserMain() {
         return userMain;
     }
 
-    public void setUserMain(UserMain userMain) {
+    public void setUserMain(AggregateReference<UserMain, UUID> userMain) {
         this.userMain = userMain;
     }
 
     @Override
     public String toString() {
         return "BookRead [id=" + id + ", progress=" + progress + ", rating=" + rating + ", review=" + review
-                + ", completed=" + completed + ", completedDate=" + completedDate + ", book=" + book + ", userTags=" + userTags
-                + ", userMain=" + userMain + "]";
+                + ", completed=" + completed + ", completedDate=" + completedDate + ", book=" + book + ", userMain="
+                + userMain + ", userTags=" + userTags + "]";
     }
-
-    
-
-    
-    
 
 }

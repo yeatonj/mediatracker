@@ -3,7 +3,6 @@ package me.yeaton.mediatracker.model;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
 public class BookWishlist {
@@ -12,10 +11,10 @@ public class BookWishlist {
     private UUID id;
     private Integer rank;
     private AggregateReference<Book, UUID> book;
-    @Transient
-    UserMain userMain; // This is the user associated with this wishlist, will be persisted by the user itself
+    private AggregateReference<UserMain, UUID> userMain;
 
-    public BookWishlist(AggregateReference<Book, UUID> book) {
+    public BookWishlist(AggregateReference<Book, UUID> book, AggregateReference<UserMain, UUID> userMain) {
+        this.userMain = userMain;
         this.book = book;
     }
 
@@ -43,11 +42,11 @@ public class BookWishlist {
         this.book = book;
     }
 
-    public UserMain getUserMain() {
+    public AggregateReference<UserMain, UUID> getUserMain() {
         return userMain;
     }
 
-    public void setUserMain(UserMain userMain) {
+    public void setUserMain(AggregateReference<UserMain, UUID> userMain) {
         this.userMain = userMain;
     }
 
@@ -55,6 +54,5 @@ public class BookWishlist {
     public String toString() {
         return "BookWishlist [id=" + id + ", rank=" + rank + ", book=" + book + ", userMain=" + userMain + "]";
     }
-
 
 }

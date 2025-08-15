@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS genre (
 -- book_wishlist, in user aggregate
 CREATE TABLE IF NOT EXISTS book_wishlist (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_main UUID NOT NULL REFERENCES user_main,
+    user_main UUID UNIQUE NOT NULL REFERENCES user_main,
     book UUID NOT NULL REFERENCES book,
     rank INTEGER
 );
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS book_genre(
 --book_read, in user aggregate
 CREATE TABLE IF NOT EXISTS book_read(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_main UUID NOT NULL REFERENCES user_main,
+    user_main UUID UNIQUE NOT NULL REFERENCES user_main,
     book UUID NOT NULL REFERENCES book,
     progress INTEGER NOT NULL,
     rating INTEGER ,

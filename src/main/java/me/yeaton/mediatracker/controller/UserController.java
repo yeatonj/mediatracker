@@ -1,7 +1,5 @@
 package me.yeaton.mediatracker.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,10 +29,16 @@ public class UserController {
         return users.findAll();
     }
 
+    // @GetMapping("/{username}")
+    // public UserMain findByUsername(@PathVariable String username) {
+    //     return users.findByUsername(username).orElse(null);
+    // }
+
     @GetMapping("/{username}")
-    public List<UserMain> findByUsername(@PathVariable String username) {
-        return users.findByUsername(username);
+    public UserMain findByUsernameQuery(@PathVariable String username) {
+        return users.findByUsernameQuery(username);
     }
+    
 
     @PostMapping
     public ResponseEntity<Void> addUser(@RequestBody UserMain user) {
