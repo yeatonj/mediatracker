@@ -103,12 +103,12 @@ public class Book {
     }
 
 
-    public String getcoverImgLoc() {
+    public String getCoverImgLoc() {
         return coverImgLoc;
     }
 
 
-    public void setcoverImgLoc(String coverImgLoc) {
+    public void setCoverImgLoc(String coverImgLoc) {
         this.coverImgLoc = coverImgLoc;
     }
 

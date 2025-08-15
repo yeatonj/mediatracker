@@ -25,7 +25,7 @@ import me.yeaton.mediatracker.repository.BookRepository;
 import me.yeaton.mediatracker.repository.GenreRepository;
 import me.yeaton.mediatracker.repository.TagRepository;
 import me.yeaton.mediatracker.repository.UserRepository;
-import me.yeaton.mediatracker.repository.WishlistRepository;
+import me.yeaton.mediatracker.repository.BookWishlistRepository;
 
 @SpringBootTest
 class MediatrackerApplicationTests {
@@ -45,7 +45,7 @@ class MediatrackerApplicationTests {
 	BookReadRepository booksRead;
 
 	@Autowired
-	WishlistRepository wishlists;
+	BookWishlistRepository wishlists;
 
 	@Test
 	void contextLoads() {
