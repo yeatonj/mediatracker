@@ -1,13 +1,22 @@
 package me.yeaton.mediatracker.service;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.stereotype.Service;
 
 import me.yeaton.mediatracker.model.Book;
+import me.yeaton.mediatracker.model.BookGenre;
+import me.yeaton.mediatracker.model.BookTag;
+import me.yeaton.mediatracker.model.Genre;
+import me.yeaton.mediatracker.model.Tag;
 import me.yeaton.mediatracker.repository.BookRepository;
+import me.yeaton.mediatracker.repository.GenreRepository;
+import me.yeaton.mediatracker.repository.TagRepository;
 
 @Service
 public class BookService {
@@ -15,9 +24,50 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private GenreRepository genreRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
+
+    // class for recieving books for the genre and tag many-many relationship
+    public record SerializedBook(
+        String title,
+        String author,
+        String series,
+        Integer pages,
+        String description,
+        LocalDateTime published,
+        String coverImgLoc,
+        List<UUID> genres,
+        List<UUID> tags
+    ){}
+
+    private Book deserializeBook(SerializedBook serializedBook) {
+        Book tempBook = new Book(serializedBook.title(), serializedBook.author(), serializedBook.pages(), serializedBook.description(), serializedBook.published());
+        tempBook.setSeries(serializedBook.series());
+        tempBook.setCoverImgLoc(serializedBook.coverImgLoc());
+        // !! want better error handling here...
+        // Add genres
+        for (UUID genreId : serializedBook.genres()) {
+            // Grab aggregate reference to the relevant genre tag
+            AggregateReference<Genre,UUID> ref = AggregateReference.to(genreRepository.findById(genreId).get().getId());
+            // add new BookGenre object to the Book
+            tempBook.addBookGenre(new BookGenre(ref));
+        }
+        // Add tags
+        for (UUID tagId : serializedBook.tags()) {
+            // Grab aggregate reference to the relevant genre tag
+            AggregateReference<Tag,UUID> ref = AggregateReference.to(tagRepository.findById(tagId).get().getId());
+            // add new BookGenre object to the Book
+            tempBook.addBookTag(new BookTag(ref));
+        }
+        return tempBook;
+    }
+
     // Create
-    public Book createBook(Book book) {
-        return bookRepository.save(book);
+    public Book createBook(SerializedBook serializedBook) {
+        return bookRepository.save(deserializeBook(serializedBook));
     }
 
     // Read
@@ -26,7 +76,8 @@ public class BookService {
     }
 
     // Update
-    public Book updateBook(Book book, UUID id) {
+    public Book updateBook(SerializedBook serializedBook, UUID id) {
+        Book book = deserializeBook(serializedBook);
         Book bookDB = bookRepository.findById(id).get();
         // Update title
         if (Objects.nonNull(book.getTitle()) && !"".equalsIgnoreCase(book.getTitle())) {
@@ -69,4 +120,8 @@ public class BookService {
     }
 
     // Delete
+    public void deleteBook(UUID id) {
+        bookRepository.deleteById(id);
+    }
+    
 }
