@@ -11,12 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.stereotype.Service;
 
-import me.yeaton.mediatracker.model.Book;
-import me.yeaton.mediatracker.model.BookGenre;
 import me.yeaton.mediatracker.model.BookRead;
-import me.yeaton.mediatracker.model.BookTag;
-import me.yeaton.mediatracker.model.Genre;
-import me.yeaton.mediatracker.model.Tag;
 import me.yeaton.mediatracker.model.UserTag;
 import me.yeaton.mediatracker.repository.BookReadRepository;
 import me.yeaton.mediatracker.repository.BookRepository;
