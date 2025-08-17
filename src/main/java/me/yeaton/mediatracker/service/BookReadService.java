@@ -52,14 +52,15 @@ public class BookReadService {
         tempBookRead.setRating(serializedBookRead.rating());
         tempBookRead.setReview(serializedBookRead.review());
         tempBookRead.setCompletedDate(serializedBookRead.completedDate());
-        AggregateReference.to(bookReadRepository.findById(serializedBookRead.bookId()).get().getId());
-        AggregateReference.to(userRepository.findById(serializedBookRead.userId()).get().getId());
+        tempBookRead.setBook(AggregateReference.to(bookReadRepository.findById(serializedBookRead.bookId()).get().getId()));
+        tempBookRead.setUserMain(AggregateReference.to(userRepository.findById(serializedBookRead.userId()).get().getId()));
         // !! want better error handling here...
         Set<UserTag> tempSet = new HashSet<>();
         // Add tags
         for (UUID tag : serializedBookRead.tags()) {
             tempSet.add(new UserTag(AggregateReference.to(tagRepository.findById(tag).get().getId())));
         }
+        tempBookRead.setUserTags(tempSet);
         return tempBookRead;
     }
 
