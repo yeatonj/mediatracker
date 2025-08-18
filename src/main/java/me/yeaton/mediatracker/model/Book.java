@@ -124,7 +124,6 @@ public class Book {
 
     public void addBookGenre(BookGenre bookGenre) {
         this.bookGenres.add(bookGenre);
-        bookGenre.book = this;
     }
 
 
@@ -139,7 +138,6 @@ public class Book {
 
     public void addBookTag(BookTag bookTag) {
         this.bookTags.add(bookTag);
-        bookTag.book = this;
     }
 
 

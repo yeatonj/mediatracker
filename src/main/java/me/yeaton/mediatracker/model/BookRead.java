@@ -105,7 +105,6 @@ public class BookRead {
 
     public void addUserTag(UserTag userTag) {
         this.userTags.add(userTag);
-        userTag.bookRead = this;
     }
 
     public AggregateReference<UserMain, UUID> getUserMain() {

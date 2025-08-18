@@ -49,18 +49,22 @@ public class BookService {
         tempBook.setCoverImgLoc(serializedBook.coverImgLoc());
         // !! want better error handling here...
         // Add genres
-        for (UUID genreId : serializedBook.genres()) {
-            // Grab aggregate reference to the relevant genre tag
-            AggregateReference<Genre,UUID> ref = AggregateReference.to(genreRepository.findById(genreId).get().getId());
-            // add new BookGenre object to the Book
-            tempBook.addBookGenre(new BookGenre(ref));
+        if (serializedBook.genres() != null) {
+            for (UUID genreId : serializedBook.genres()) {
+                // Grab aggregate reference to the relevant genre tag
+                AggregateReference<Genre,UUID> ref = AggregateReference.to(genreRepository.findById(genreId).get().getId());
+                // add new BookGenre object to the Book
+                tempBook.addBookGenre(new BookGenre(ref));
+            }
         }
         // Add tags
-        for (UUID tagId : serializedBook.tags()) {
-            // Grab aggregate reference to the relevant genre tag
-            AggregateReference<Tag,UUID> ref = AggregateReference.to(tagRepository.findById(tagId).get().getId());
-            // add new BookGenre object to the Book
-            tempBook.addBookTag(new BookTag(ref));
+        if (serializedBook.tags() != null) {
+            for (UUID tagId : serializedBook.tags()) {
+                // Grab aggregate reference to the relevant genre tag
+                AggregateReference<Tag,UUID> ref = AggregateReference.to(tagRepository.findById(tagId).get().getId());
+                // add new BookGenre object to the Book
+                tempBook.addBookTag(new BookTag(ref));
+            }
         }
         return tempBook;
     }
@@ -123,5 +127,5 @@ public class BookService {
     public void deleteBook(UUID id) {
         bookRepository.deleteById(id);
     }
-    
+
 }
