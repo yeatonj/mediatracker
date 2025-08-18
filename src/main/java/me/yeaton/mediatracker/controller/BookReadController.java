@@ -12,42 +12,44 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import me.yeaton.mediatracker.model.Book;
-import me.yeaton.mediatracker.service.BookService;
+import me.yeaton.mediatracker.model.BookRead;
+import me.yeaton.mediatracker.service.BookReadService;
+import me.yeaton.mediatracker.service.BookReadService.SerializedBookRead;
 import me.yeaton.mediatracker.service.BookService.SerializedBook;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
-@RequestMapping("api/books")
-public class BookController {
+@RequestMapping("api/books-read")
+public class BookReadController {
 
     @Autowired
-    private BookService bookService;
+    private BookReadService bookReadService;
 
     // Create
     @PostMapping
-    public Book createBook(@RequestBody SerializedBook serializedBook) {
-        return bookService.createBook(serializedBook);
+    public BookRead createBookRead(@RequestBody SerializedBookRead serializedBookRead) {
+        return bookReadService.createBookRead(serializedBookRead);
     }
 
     // Read
     @GetMapping
-    public Iterable<Book> fetchBooks() {
-        return bookService.fetchBooks();
+    public Iterable<BookRead> fetchBooksRead() {
+        return bookReadService.fetchBookRead();
     }
 
     // Update
     @PutMapping("/{id}")
-    public Book updateBook(@RequestBody SerializedBook serializedBook, @PathVariable("id") UUID id) {
-        return bookService.updateBook(serializedBook, id);
+    public BookRead updateBookRead(@PathVariable("id") UUID id, @RequestBody SerializedBookRead serializedBookRead) {
+        return bookReadService.updateBookRead(serializedBookRead, id);
     }
 
     // Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable("id") UUID id) {
-        bookService.deleteBook(id);
+    public ResponseEntity<Void> deleteBookRead(@PathVariable("id") UUID id) {
+        bookReadService.deleteBookRead(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
