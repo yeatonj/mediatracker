@@ -33,9 +33,15 @@ public class BookWishlistService {
     ) {}
 
     private BookWishlist deserializeBookWishlist(SerializedBookWishlist serializedBookWishlist) {
-        AggregateReference<Book, UUID> book = AggregateReference.to(bookRepository.findById(serializedBookWishlist.bookId()).get().getId());
-        AggregateReference<UserMain, UUID> user = AggregateReference.to(userRepository.findById(serializedBookWishlist.userId()).get().getId());
-        return new BookWishlist(book, user);
+        AggregateReference<Book, UUID> book = null;
+        AggregateReference<UserMain, UUID> user = null;
+        if (serializedBookWishlist.bookId() != null) {
+            book = AggregateReference.to(bookRepository.findById(serializedBookWishlist.bookId()).get().getId());
+        }
+        if (serializedBookWishlist.bookId() != null) {
+            user = AggregateReference.to(userRepository.findById(serializedBookWishlist.userId()).get().getId());
+        }
+        return new BookWishlist(book, user, serializedBookWishlist.rank());
     }
 
     // Create

@@ -13,9 +13,16 @@ public class BookWishlist {
     private AggregateReference<Book, UUID> book;
     private AggregateReference<UserMain, UUID> userMain;
 
+    public BookWishlist() {}
+
     public BookWishlist(AggregateReference<Book, UUID> book, AggregateReference<UserMain, UUID> userMain) {
+        this(book, userMain, null);
+    }
+
+    public BookWishlist(AggregateReference<Book, UUID> book, AggregateReference<UserMain, UUID> userMain, Integer rank) {
         this.userMain = userMain;
         this.book = book;
+        this.rank = rank;
     }
 
     public UUID getId() {
