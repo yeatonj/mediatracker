@@ -52,21 +52,34 @@ public class BookReadService {
         tempBookRead.setRating(serializedBookRead.rating());
         tempBookRead.setReview(serializedBookRead.review());
         tempBookRead.setCompletedDate(serializedBookRead.completedDate());
-        tempBookRead.setBook(AggregateReference.to(bookReadRepository.findById(serializedBookRead.bookId()).get().getId()));
-        tempBookRead.setUserMain(AggregateReference.to(userRepository.findById(serializedBookRead.userId()).get().getId()));
-        // !! want better error handling here...
-        Set<UserTag> tempSet = new HashSet<>();
-        // Add tags
-        for (UUID tag : serializedBookRead.tags()) {
-            tempSet.add(new UserTag(AggregateReference.to(tagRepository.findById(tag).get().getId())));
+        if (serializedBookRead.bookId() != null) {
+            tempBookRead.setBook(AggregateReference.to(bookRepository.findById(serializedBookRead.bookId()).get().getId()));
         }
-        tempBookRead.setUserTags(tempSet);
+        if (serializedBookRead.bookId() != null) {
+            tempBookRead.setUserMain(AggregateReference.to(userRepository.findById(serializedBookRead.userId()).get().getId()));
+        }
+        // !! want better error handling here...
+        if (serializedBookRead.tags() != null) {
+            Set<UserTag> tempSet = new HashSet<>();
+            // Add tags
+            for (UUID tag : serializedBookRead.tags()) {
+                tempSet.add(new UserTag(AggregateReference.to(tagRepository.findById(tag).get().getId())));
+            }
+            tempBookRead.setUserTags(tempSet);
+        }
         return tempBookRead;
     }
 
     // Create
     public BookRead createBookRead(SerializedBookRead serializedBookRead) {
-        return bookReadRepository.save(deserializeBookRead(serializedBookRead));
+        BookRead tempBook = deserializeBookRead(serializedBookRead);
+        if (tempBook.getProgress() == null) {
+            tempBook.setProgress(0);
+        }
+        if (tempBook.getCompleted() == null) {
+            tempBook.setCompleted(false);
+        }
+        return bookReadRepository.save(tempBook);
     }
 
     // Read

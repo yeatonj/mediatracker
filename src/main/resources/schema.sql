@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS book_read(
     progress INTEGER NOT NULL,
     rating INTEGER ,
     review VARCHAR,
-    completed BOOLEAN,
+    completed BOOLEAN NOT NULL,
     completed_date TIMESTAMPTZ
 );
 
