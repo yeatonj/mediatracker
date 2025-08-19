@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import me.yeaton.mediatracker.model.Book;
+import me.yeaton.mediatracker.model.book.BookDetail;
 import me.yeaton.mediatracker.service.BookService;
 import me.yeaton.mediatracker.service.BookService.SerializedBook;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,11 +33,18 @@ public class BookController {
         return bookService.createBook(serializedBook);
     }
 
-    // Read
+    // Read All
     @GetMapping
     public Iterable<Book> fetchBooks() {
         return bookService.fetchBooks();
     }
+
+    // Read one (details)
+    @GetMapping("/{id}")
+    public BookDetail fetchBookDetails(@PathVariable("id") UUID id) {
+        return bookService.fetchBookDetails(id);
+    }
+
 
     // Update
     @PutMapping("/{id}")

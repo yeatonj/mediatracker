@@ -14,6 +14,7 @@ import me.yeaton.mediatracker.model.BookGenre;
 import me.yeaton.mediatracker.model.BookTag;
 import me.yeaton.mediatracker.model.Genre;
 import me.yeaton.mediatracker.model.Tag;
+import me.yeaton.mediatracker.model.book.BookDetail;
 import me.yeaton.mediatracker.repository.BookRepository;
 import me.yeaton.mediatracker.repository.GenreRepository;
 import me.yeaton.mediatracker.repository.TagRepository;
@@ -74,9 +75,14 @@ public class BookService {
         return bookRepository.save(deserializeBook(serializedBook));
     }
 
-    // Read
+    // Read All
     public Iterable<Book> fetchBooks() {
         return bookRepository.findAll();
+    }
+
+    // Read One
+    public BookDetail fetchBookDetails(UUID id) {
+        return bookRepository.findBookDetails(id);
     }
 
     // Update
