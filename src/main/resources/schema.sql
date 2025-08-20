@@ -80,6 +80,13 @@ CREATE TABLE IF NOT EXISTS author(
     name VARCHAR NOT NULL
 );
 
+--book_author, in book aggregate
+CREATE TABLE IF NOT EXISTS book_author(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    book UUID NOT NULL REFERENCES book,
+    author UUID NOT NULL REFERENCES author
+);
+
 --series, aggregate
 CREATE TABLE IF NOT EXISTS series(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

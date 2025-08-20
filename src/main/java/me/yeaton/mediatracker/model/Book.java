@@ -13,12 +13,13 @@ public class Book {
     @Id
     private UUID id;
     private String title;
-    private AggregateReference<Author, UUID> author;
     private AggregateReference<Series, UUID> series;
     private Integer pages;
     private String description;
     private LocalDateTime published;
     private String coverImgLoc;
+    // Associated Authors
+    private Set<BookAuthor> bookAuthors = new HashSet<>();
     // Associated Genres
     private Set<BookGenre> bookGenres = new HashSet<>();
     // Associated Tags
@@ -52,17 +53,6 @@ public class Book {
     public void setTitle(String title) {
         this.title = title;
     }
-
-
-    public AggregateReference<Author, UUID> getAuthor() {
-        return author;
-    }
-
-
-    public void setAuthor(AggregateReference<Author, UUID> author) {
-        this.author = author;
-    }
-
 
     public AggregateReference<Series, UUID> getSeries() {
         return series;
@@ -142,15 +132,25 @@ public class Book {
     }
 
 
-    @Override
-    public String toString() {
-        return "Book [id=" + id + ", title=" + title + ", author=" + author + ", series=" + series + ", pages=" + pages
-                + ", description=" + description + ", published=" + published + ", coverImgLoc=" + coverImgLoc
-                + ", bookGenres=" + bookGenres + ", bookTags=" + bookTags + "]";
+    public Set<BookAuthor> getBookAuthors() {
+        return bookAuthors;
     }
 
-    
 
-    
+    public void setBookAuthors(Set<BookAuthor> bookAuthors) {
+        this.bookAuthors = bookAuthors;
+    }
+
+    public void addBookAuthor(BookAuthor bookAuthor) {
+        this.bookAuthors.add(bookAuthor);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Book [id=" + id + ", title=" + title + ", series=" + series + ", pages=" + pages + ", description="
+                + description + ", published=" + published + ", coverImgLoc=" + coverImgLoc + ", bookAuthors="
+                + bookAuthors + ", bookGenres=" + bookGenres + ", bookTags=" + bookTags + "]";
+    }
 
 }

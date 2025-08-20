@@ -21,7 +21,7 @@ import me.yeaton.mediatracker.service.AuthorService;
 @RequestMapping("api/authors")
 public class AuthorController {
 
-     @Autowired
+    @Autowired
     private AuthorService authorService;
 
     // Create
