@@ -6,14 +6,15 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
 public class Book {
 
     @Id
     private UUID id;
     private String title;
-    private String author;
-    private String series;
+    private AggregateReference<Author, UUID> author;
+    private AggregateReference<Series, UUID> series;
     private Integer pages;
     private String description;
     private LocalDateTime published;
@@ -24,9 +25,9 @@ public class Book {
     private Set<BookTag> bookTags = new HashSet<>();
 
     
-    public Book(String title, String author, Integer pages, String description, LocalDateTime published) {
+    public Book(String title, Integer pages, String description, LocalDateTime published) {
+        // !! need to re-add author
         this.title = title;
-        this.author = author;
         this.pages = pages;
         this.description = description;
         this.published = published;
@@ -53,22 +54,22 @@ public class Book {
     }
 
 
-    public String getAuthor() {
+    public AggregateReference<Author, UUID> getAuthor() {
         return author;
     }
 
 
-    public void setAuthor(String author) {
+    public void setAuthor(AggregateReference<Author, UUID> author) {
         this.author = author;
     }
 
 
-    public String getSeries() {
+    public AggregateReference<Series, UUID> getSeries() {
         return series;
     }
 
 
-    public void setSeries(String series) {
+    public void setSeries(AggregateReference<Series, UUID> series) {
         this.series = series;
     }
 

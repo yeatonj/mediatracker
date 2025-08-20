@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS user_main (
 CREATE TABLE IF NOT EXISTS book (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title VARCHAR NOT NULL,
-    author VARCHAR NOT NULL,
-    series VARCHAR,
+    author UUID NOT NULL REFERENCES author,
+    series UUID REFERENCES series,
     pages INTEGER NOT NULL,
     description VARCHAR NOT NULL,
     published TIMESTAMPTZ NOT NULL,
@@ -72,4 +72,16 @@ CREATE TABLE IF NOT EXISTS user_tag(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     book_read UUID NOT NULL REFERENCES book_read,
     tag UUID NOT NULL REFERENCES tag
+);
+
+--author, aggregate
+CREATE TABLE IF NOT EXISTS author(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR NOT NULL
+);
+
+--series, aggregate
+CREATE TABLE IF NOT EXISTS series(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR NOT NULL
 );
