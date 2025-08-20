@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import me.yeaton.mediatracker.model.Book;
-import me.yeaton.mediatracker.model.book.BookDetail;
+import me.yeaton.mediatracker.model.bookDetails.BookDetail;
 
 public interface BookRepository extends CrudRepository<Book, UUID>{
 

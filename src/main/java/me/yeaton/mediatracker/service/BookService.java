@@ -14,7 +14,7 @@ import me.yeaton.mediatracker.model.BookGenre;
 import me.yeaton.mediatracker.model.BookTag;
 import me.yeaton.mediatracker.model.Genre;
 import me.yeaton.mediatracker.model.Tag;
-import me.yeaton.mediatracker.model.book.BookDetail;
+import me.yeaton.mediatracker.model.bookDetails.BookDetail;
 import me.yeaton.mediatracker.repository.BookRepository;
 import me.yeaton.mediatracker.repository.GenreRepository;
 import me.yeaton.mediatracker.repository.TagRepository;

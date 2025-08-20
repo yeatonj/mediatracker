@@ -1,4 +1,4 @@
-package me.yeaton.mediatracker.model.book;
+package me.yeaton.mediatracker.model.bookDetails;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import me.yeaton.mediatracker.model.Book;
-import me.yeaton.mediatracker.model.book.BookDetail;
+import me.yeaton.mediatracker.model.bookDetails.BookDetail;
 import me.yeaton.mediatracker.service.BookService;
 import me.yeaton.mediatracker.service.BookService.SerializedBook;
 import org.springframework.web.bind.annotation.PutMapping;
