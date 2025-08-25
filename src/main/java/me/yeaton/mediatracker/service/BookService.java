@@ -1,5 +1,6 @@
 package me.yeaton.mediatracker.service;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -8,6 +9,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import me.yeaton.mediatracker.model.Author;
 import me.yeaton.mediatracker.model.Book;
@@ -53,6 +57,16 @@ public class BookService {
         List<UUID> genres,
         List<UUID> tags
     ){}
+
+    public record googleBook(
+
+    ){}
+
+    public record googleBookResult(
+        googleBook[] 
+    ) {}
+
+    
 
     private Book deserializeBook(SerializedBook serializedBook) {
         Book tempBook = new Book(serializedBook.title(), serializedBook.pages(), serializedBook.description(), serializedBook.published());
@@ -153,6 +167,33 @@ public class BookService {
     // Delete
     public void deleteBook(UUID id) {
         bookRepository.deleteById(id);
+    }
+
+    // Search google books API !! need to add API key
+    public String externalFetchBooks(String title, String author) {
+        RestClient client = RestClient.create();
+
+        // Convert terms to lowercase
+        String convertedTitle = title.toLowerCase();
+        String convertedAuthor = author.toLowerCase();
+        String queryString = "intitle:" + convertedTitle + "+inauthor:" + convertedAuthor;
+        System.out.println(queryString);
+
+        // Build URI
+        UriComponents components = UriComponentsBuilder
+            .fromUriString("https://www.googleapis.com/books/v1/volumes")
+            .queryParam("q", "{q}")
+            .queryParam("printType", "books")
+            .encode()
+            .build();
+        URI finalUri = components.expand(queryString).toUri();
+
+        String result = client.get()
+            .uri(finalUri)
+            .retrieve()
+            .body(String.class);
+
+        return result;
     }
 
 }

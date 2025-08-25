@@ -18,6 +18,8 @@ import me.yeaton.mediatracker.service.BookService;
 import me.yeaton.mediatracker.service.BookService.SerializedBook;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -58,5 +60,12 @@ public class BookController {
         bookService.deleteBook(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    // External Search
+    @GetMapping("/external")
+    public String externalFetchBooks(@RequestParam String author, @RequestParam String title) {
+        return bookService.externalFetchBooks(title, author);
+    }
+    
 
 }
