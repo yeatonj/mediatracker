@@ -58,6 +58,11 @@ public class BookService {
         List<UUID> tags
     ){}
 
+    record IndustryIdentifier(
+        String type,
+        String identifier
+    ) {}
+
     record ImageLinks(
         String smallThumbnail,
         String thumbnail,
@@ -76,7 +81,8 @@ public class BookService {
         String publishedDate,
         String description,
         String[] categories,
-        ImageLinks imageLinks
+        ImageLinks imageLinks,
+        IndustryIdentifier[] industryIdentifiers
     ) {}
 
     public record GoogleBook(
@@ -218,26 +224,31 @@ public class BookService {
 
     // Create from Google Book !!
     public Book createBookFromGoogleBooks(String id) {
+        // Set request information and send
         RestClient client = RestClient.create();
-        
         UriComponents components = UriComponentsBuilder
             .fromUriString("https://www.googleapis.com/books/v1/volumes/{id}")
             .encode()
             .build();
 
         URI uri = components.expand(id).toUri();
-
         GoogleBook result = client.get()
             .uri(uri)
             .retrieve()
             .body(GoogleBook.class);
-
         VolumeInfo info = result.volumeInfo();
 
+        // Create book with base fields
         Book book = new Book(info.title(), info.pageCount(), info.description(), LocalDateTime.parse(info.publishedDate() + "T00:00:00"));
-        // This will let us save the book
-
-        // However, we also need to assign the authors and the genres/tags!
+        // Assign industry identifiers
+        for (IndustryIdentifier identifier : info.industryIdentifiers()) {
+            if (identifier.type().equals("ISBN_13")) {
+                book.setIsbnThirteen(identifier.identifier());
+            } else if (identifier.type().equals("ISBN_10")) {
+                book.setIsbnTen(identifier.identifier());
+            }
+        }
+        // Now, we also need to assign the authors and the genres/tags!
         // Authors
         for (String author : info.authors()) {
             AggregateReference<Author, UUID> ref;
@@ -254,7 +265,7 @@ public class BookService {
             book.addBookAuthor(new BookAuthor(ref));
         }
 
-        // Assume we just havev genres, for now (that seems to be what google books provides)
+        // Assume we just have genres, for now (that seems to be what google books provides)
         for (String genre : info.categories()) {
             AggregateReference<Genre, UUID> ref;
             try {
@@ -262,7 +273,7 @@ public class BookService {
                 System.out.println("Genre Already exists!");
             } catch (Exception e) {
                 // Need to add to DB first
-                System.out.println("Adding new author!");
+                System.out.println("Adding new genre!");
                 Genre genreObj = new Genre(genre);
                 ref = AggregateReference.to(genreRepository.save(genreObj).getId());
             }

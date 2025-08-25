@@ -18,6 +18,8 @@ public class Book {
     private String description;
     private LocalDateTime published;
     private String coverImgLoc;
+    private String isbnTen;
+    private String isbnThirteen;
     // Associated Authors
     private Set<BookAuthor> bookAuthors = new HashSet<>();
     // Associated Genres
@@ -146,11 +148,31 @@ public class Book {
     }
 
 
+    public String getIsbnTen() {
+        return isbnTen;
+    }
+
+
+    public void setIsbnTen(String isbnTen) {
+        this.isbnTen = isbnTen;
+    }
+
+
+    public String getIsbnThirteen() {
+        return isbnThirteen;
+    }
+
+
+    public void setIsbnThirteen(String isbnThirteen) {
+        this.isbnThirteen = isbnThirteen;
+    }
+
+
     @Override
     public String toString() {
         return "Book [id=" + id + ", title=" + title + ", series=" + series + ", pages=" + pages + ", description="
-                + description + ", published=" + published + ", coverImgLoc=" + coverImgLoc + ", bookAuthors="
-                + bookAuthors + ", bookGenres=" + bookGenres + ", bookTags=" + bookTags + "]";
+                + description + ", published=" + published + ", coverImgLoc=" + coverImgLoc + ", isbnTen=" + isbnTen
+                + ", isbnThirteen=" + isbnThirteen + ", bookAuthors=" + bookAuthors + ", bookGenres=" + bookGenres
+                + ", bookTags=" + bookTags + "]";
     }
-
 }

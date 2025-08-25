@@ -41,7 +41,9 @@ CREATE TABLE IF NOT EXISTS book (
     pages INTEGER NOT NULL,
     description VARCHAR NOT NULL,
     published TIMESTAMPTZ NOT NULL,
-    cover_img_loc VARCHAR
+    cover_img_loc VARCHAR,
+    isbn_ten VARCHAR UNIQUE,
+    isbn_thirteen VARCHAR UNIQUE
 );
 
 
