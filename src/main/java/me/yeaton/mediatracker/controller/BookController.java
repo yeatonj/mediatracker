@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import me.yeaton.mediatracker.model.Book;
 import me.yeaton.mediatracker.model.bookDetails.BookDetail;
 import me.yeaton.mediatracker.service.BookService;
+import me.yeaton.mediatracker.service.BookService.GoogleBookResult;
 import me.yeaton.mediatracker.service.BookService.SerializedBook;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,9 +64,16 @@ public class BookController {
 
     // External Search
     @GetMapping("/external")
-    public String externalFetchBooks(@RequestParam String author, @RequestParam String title) {
+    public GoogleBookResult externalFetchBooks(@RequestParam String author, @RequestParam String title) {
         return bookService.externalFetchBooks(title, author);
     }
+
+    // External Add
+    @PostMapping("/external/{id}")
+    public Book externalCreateBook(@PathVariable("id") String id) {
+        return bookService.createBookFromGoogleBooks(id);
+    }
+    
     
 
 }

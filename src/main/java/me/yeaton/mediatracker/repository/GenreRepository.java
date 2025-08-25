@@ -1,5 +1,6 @@
 package me.yeaton.mediatracker.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
@@ -7,5 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 import me.yeaton.mediatracker.model.Genre;
 
 public interface GenreRepository extends CrudRepository<Genre, UUID>{
-
+    Optional<Genre> findByGenre(String genre);
 }

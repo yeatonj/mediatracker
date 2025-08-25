@@ -58,12 +58,33 @@ public class BookService {
         List<UUID> tags
     ){}
 
-    public record googleBook(
+    record ImageLinks(
+        String smallThumbnail,
+        String thumbnail,
+        String small,
+        String medium,
+        String large,
+        String extraLarge
+    ) {}
 
-    ){}
+    record VolumeInfo(
+        String title,
+        String id,
+        String[] authors,
+        String publisher,
+        Integer pageCount,
+        String publishedDate,
+        String description,
+        String[] categories,
+        ImageLinks imageLinks
+    ) {}
 
-    public record googleBookResult(
-        googleBook[] 
+    public record GoogleBook(
+        VolumeInfo volumeInfo
+    ) {}
+
+    public record GoogleBookResult(
+        GoogleBook[] items
     ) {}
 
     
@@ -170,14 +191,13 @@ public class BookService {
     }
 
     // Search google books API !! need to add API key
-    public String externalFetchBooks(String title, String author) {
+    public GoogleBookResult externalFetchBooks(String title, String author) {
         RestClient client = RestClient.create();
 
         // Convert terms to lowercase
         String convertedTitle = title.toLowerCase();
         String convertedAuthor = author.toLowerCase();
         String queryString = "intitle:" + convertedTitle + "+inauthor:" + convertedAuthor;
-        System.out.println(queryString);
 
         // Build URI
         UriComponents components = UriComponentsBuilder
@@ -188,12 +208,68 @@ public class BookService {
             .build();
         URI finalUri = components.expand(queryString).toUri();
 
-        String result = client.get()
+        GoogleBookResult result = client.get()
             .uri(finalUri)
             .retrieve()
-            .body(String.class);
+            .body(GoogleBookResult.class);
 
         return result;
+    }
+
+    // Create from Google Book !!
+    public Book createBookFromGoogleBooks(String id) {
+        RestClient client = RestClient.create();
+        
+        UriComponents components = UriComponentsBuilder
+            .fromUriString("https://www.googleapis.com/books/v1/volumes/{id}")
+            .encode()
+            .build();
+
+        URI uri = components.expand(id).toUri();
+
+        GoogleBook result = client.get()
+            .uri(uri)
+            .retrieve()
+            .body(GoogleBook.class);
+
+        VolumeInfo info = result.volumeInfo();
+
+        Book book = new Book(info.title(), info.pageCount(), info.description(), LocalDateTime.parse(info.publishedDate() + "T00:00:00"));
+        // This will let us save the book
+
+        // However, we also need to assign the authors and the genres/tags!
+        // Authors
+        for (String author : info.authors()) {
+            AggregateReference<Author, UUID> ref;
+            try {
+                ref = AggregateReference.to(authorRepository.findByName(author).get().getId());
+                System.out.println("Author Already exists!");
+            } catch (Exception e) {
+                // Need to add to DB first
+                System.out.println("Adding new author!");
+                Author authorObj = new Author(author);
+                ref = AggregateReference.to(authorRepository.save(authorObj).getId());
+            }
+            // Add to book authors
+            book.addBookAuthor(new BookAuthor(ref));
+        }
+
+        // Assume we just havev genres, for now (that seems to be what google books provides)
+        for (String genre : info.categories()) {
+            AggregateReference<Genre, UUID> ref;
+            try {
+                ref = AggregateReference.to(genreRepository.findByGenre(genre).get().getId());
+                System.out.println("Genre Already exists!");
+            } catch (Exception e) {
+                // Need to add to DB first
+                System.out.println("Adding new author!");
+                Genre genreObj = new Genre(genre);
+                ref = AggregateReference.to(genreRepository.save(genreObj).getId());
+            }
+            // Add to book genres
+            book.addBookGenre(new BookGenre(ref));
+        }
+        return bookRepository.save(book);
     }
 
 }

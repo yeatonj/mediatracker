@@ -9,18 +9,6 @@ CREATE TABLE IF NOT EXISTS user_main (
     created_at TIMESTAMPTZ
 );
 
--- book, aggregate
-CREATE TABLE IF NOT EXISTS book (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title VARCHAR NOT NULL,
-    author UUID NOT NULL REFERENCES author,
-    series UUID REFERENCES series,
-    pages INTEGER NOT NULL,
-    description VARCHAR NOT NULL,
-    published TIMESTAMPTZ NOT NULL,
-    cover_img_loc VARCHAR
-);
-
 -- tag, belongs to both book and user aggregates
 CREATE TABLE IF NOT EXISTS tag (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -32,6 +20,30 @@ CREATE TABLE IF NOT EXISTS genre (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     genre VARCHAR UNIQUE NOT NULL
 );
+
+--series, aggregate
+CREATE TABLE IF NOT EXISTS series(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR NOT NULL
+);
+
+--author, aggregate
+CREATE TABLE IF NOT EXISTS author(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR NOT NULL
+);
+
+-- book, aggregate
+CREATE TABLE IF NOT EXISTS book (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR NOT NULL,
+    series UUID REFERENCES series,
+    pages INTEGER NOT NULL,
+    description VARCHAR NOT NULL,
+    published TIMESTAMPTZ NOT NULL,
+    cover_img_loc VARCHAR
+);
+
 
 -- book_wishlist, in user aggregate
 CREATE TABLE IF NOT EXISTS book_wishlist (
@@ -74,11 +86,7 @@ CREATE TABLE IF NOT EXISTS user_tag(
     tag UUID NOT NULL REFERENCES tag
 );
 
---author, aggregate
-CREATE TABLE IF NOT EXISTS author(
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR NOT NULL
-);
+
 
 --book_author, in book aggregate
 CREATE TABLE IF NOT EXISTS book_author(
@@ -87,8 +95,3 @@ CREATE TABLE IF NOT EXISTS book_author(
     author UUID NOT NULL REFERENCES author
 );
 
---series, aggregate
-CREATE TABLE IF NOT EXISTS series(
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR NOT NULL
-);
