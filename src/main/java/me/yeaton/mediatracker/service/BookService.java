@@ -21,6 +21,7 @@ import me.yeaton.mediatracker.model.BookTag;
 import me.yeaton.mediatracker.model.Genre;
 import me.yeaton.mediatracker.model.Tag;
 import me.yeaton.mediatracker.model.bookDetails.BookDetail;
+import me.yeaton.mediatracker.model.bookDetails.BookOverview;
 import me.yeaton.mediatracker.repository.AuthorRepository;
 import me.yeaton.mediatracker.repository.BookRepository;
 import me.yeaton.mediatracker.repository.GenreRepository;
@@ -145,6 +146,13 @@ public class BookService {
     // Read One
     public BookDetail fetchBookDetails(UUID id) {
         return bookRepository.findBookDetails(id);
+    }
+
+    // Search for a book/author
+    public Iterable<BookOverview> searchBooks(String title, String author) {
+        String wildTitle = "%" + title + "%";
+        String wildAuthor = "%" + author + "%";
+        return bookRepository.searchBooks(wildTitle, wildAuthor);
     }
 
     // Update

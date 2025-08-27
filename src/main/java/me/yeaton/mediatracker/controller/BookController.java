@@ -1,5 +1,6 @@
 package me.yeaton.mediatracker.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import me.yeaton.mediatracker.model.Book;
 import me.yeaton.mediatracker.model.bookDetails.BookDetail;
+import me.yeaton.mediatracker.model.bookDetails.BookOverview;
 import me.yeaton.mediatracker.service.BookService;
 import me.yeaton.mediatracker.service.BookService.GoogleBookResult;
 import me.yeaton.mediatracker.service.BookService.SerializedBook;
@@ -48,6 +50,12 @@ public class BookController {
         return bookService.fetchBookDetails(id);
     }
 
+    // Search for books
+    @GetMapping("/search")
+    public Iterable<BookOverview> searchBooks(@RequestParam String title, @RequestParam String author) {
+        return bookService.searchBooks(title, author);
+    }
+
 
     // Update
     @PutMapping("/{id}")
@@ -65,7 +73,7 @@ public class BookController {
     // External Search
     @GetMapping("/external")
     public GoogleBookResult externalFetchBooks(@RequestParam String author, @RequestParam String title) {
-        return bookService.externalFetchBooks(title, author);
+        return bookService.externalFetchBooks("king", "sanderson");
     }
 
     // External Add
