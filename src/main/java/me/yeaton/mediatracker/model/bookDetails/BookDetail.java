@@ -7,7 +7,6 @@ import java.util.UUID;
 public class BookDetail {
     private UUID id;
     private String title;
-    private String author;
     private String series;
     private Integer pages;
     private String description;
@@ -17,6 +16,8 @@ public class BookDetail {
     private List<UUID> genreIds;
     private List<String> tags;
     private List<UUID> tagIds;
+    private List<UUID> authorIds;
+    private List<String> authors;
     public UUID getId() {
         return id;
     }
@@ -28,12 +29,6 @@ public class BookDetail {
     }
     public void setTitle(String title) {
         this.title = title;
-    }
-    public String getAuthor() {
-        return author;
-    }
-    public void setAuthor(String author) {
-        this.author = author;
     }
     public String getSeries() {
         return series;
@@ -89,6 +84,19 @@ public class BookDetail {
     public void setTagIds(List<UUID> tagIds) {
         this.tagIds = tagIds;
     }
+    public List<UUID> getAuthorIds() {
+        return authorIds;
+    }
+    public void setAuthorIds(List<UUID> authorIds) {
+        this.authorIds = authorIds;
+    }
+    public List<String> getAuthors() {
+        return authors;
+    }
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
+    }
+    
 
     
 }
